@@ -8,6 +8,7 @@ function App() {
 
   return (
     <>
+      {/* git success by main */}
       <div className="bg-red-600">
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />

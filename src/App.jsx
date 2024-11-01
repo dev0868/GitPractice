@@ -1,8 +1,9 @@
-import { useFilterSidebarData } from "./hooks/useFilterSidebarData";
+import FilterPage from "./pages/FilterPage";
 const App = () => {
-  const { Package_Type, Destination, Activities, Days } =
-    useFilterSidebarData();
-  console.log(Package_Type);
-  return <div>hii</div>;
+  return (
+    <div>
+      <FilterPage />
+    </div>
+  );
 };
 export default App;

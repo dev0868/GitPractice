@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import FilterApi from "../api/filterApi/FilterApi";
 import {
@@ -17,21 +17,27 @@ export const useFilterSidebarData = () => {
   const Days = useSelector((state) => state.filterSidebar.days);
 
   useEffect(() => {
-    const fetchFilterApi = async () => {
-      const [data, err] = await FilterApi();
-      if (data) {
-        dispatch(setFilterData(data));
+    const fetchData = async () => {
+      const [filterResponse, destinationResponse] = await Promise.all([
+        FilterApi(),
+        fetchAllDestinations(),
+      ]);
+
+      // Destructure results from each API response
+      const [filterData, filterError] = filterResponse;
+      const [destinationError, destinationData] = destinationResponse;
+
+      // Dispatch data only after both API responses have been received
+      if (filterData) {
+        dispatch(setFilterData(filterData));
+      }
+      if (destinationData) {
+        dispatch(setAllDestinations(destinationData));
+        dispatch(setDestinationName(destinationData));
       }
     };
-    const fetDestinationAPI = async () => {
-      const [error, datas] = await fetchAllDestinations();
-      if (datas) {
-        dispatch(setAllDestinations(datas));
-        dispatch(setDestinationName(datas));
-      }
-    };
-    fetDestinationAPI();
-    fetchFilterApi();
+
+    fetchData();
   }, [dispatch]);
 
   return { Package_Type, Destination, Activities, Days };

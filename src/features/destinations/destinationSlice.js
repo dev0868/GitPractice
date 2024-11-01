@@ -8,7 +8,9 @@ export const destinationSlice = createSlice({
   name: "destination",
   initialState,
   reducers: {
-    setAllDestinations: () => {},
+    setAllDestinations: (state, action) => {
+      state.destinations = action.payload;
+    },
   },
 });
 

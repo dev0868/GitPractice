@@ -1,31 +1,31 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import FilterApi from "../../../api/filterApi/FilterApi";
 const FilterContentArea = () => {
   const [searchParams] = useSearchParams();
-  const [queryParams, setQueryParams] = useState({});
-  console.log(queryParams);
+  const [paramss, setParamss] = useState({});
+
   useEffect(() => {
     const params = {};
-
-    // Loop through each entry in searchParams
     for (let [key, value] of searchParams.entries()) {
-      // If the key already exists, convert to array or add to existing array
-      if (params[key]) {
-        params[key] = Array.isArray(params[key])
-          ? [...params[key], value]
-          : [params[key], value];
-      } else {
-        params[key] = value;
-      }
+      params[key] = [...(params[key] || []), value];
     }
-
-    setQueryParams(params);
+    setParamss(params);
+    console.log("Updated query parameters:", params);
   }, [searchParams]);
 
-  // useEffect(() => {
-  //   console.log(search.get("Destination"));
-  // }, [search]);
+  useEffect(() => {
+    const resultApi = async () => {
+      const queryString = Object.entries(paramss)
+        .map(([key, values]) => `${key}=${values.join(",")}`)
+        .join("&");
+      const [data, err] = await FilterApi(
+        `https://2rltmjilx9.execute-api.ap-south-1.amazonaws.com/DataTransaction/SearchPackages?${queryString} `
+      );
+      console.log(data, err);
+    };
+    resultApi();
+  }, [paramss]);
 
   return (
     <>

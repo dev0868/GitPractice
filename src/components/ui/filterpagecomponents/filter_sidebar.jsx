@@ -74,7 +74,7 @@ const SidebarFilter = () => {
             <div className="my-8">
               Destination
               <div className="max-h-[12rem] overflow-scroll">
-                {renderFilter(Destination, "Destination")}
+                {renderFilter(Destination, "DestinationName")}
               </div>
             </div>
             <div className="my-8">

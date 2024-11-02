@@ -24,8 +24,8 @@ export const useFilterSidebarData = () => {
       ]);
 
       // Destructure results from each API response
-      const [filterData, filterError] = filterResponse;
-      const [destinationError, destinationData] = destinationResponse;
+      const [filterData] = filterResponse;
+      const [, destinationData] = destinationResponse;
 
       // Dispatch data only after both API responses have been received
       if (filterData) {

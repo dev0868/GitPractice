@@ -1,31 +1,20 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
-import FilterApi from "../../../api/filterApi/FilterApi";
+import { useLocation, useSearchParams } from "react-router-dom";
+
 const FilterContentArea = () => {
   const [searchParams] = useSearchParams();
-  const [paramss, setParamss] = useState({});
 
   useEffect(() => {
-    const params = {};
-    for (let [key, value] of searchParams.entries()) {
-      params[key] = [...(params[key] || []), value];
-    }
-    setParamss(params);
-    console.log("Updated query parameters:", params);
+    let data = {};
+
+    searchParams.forEach((val, key) => {
+      data[key] = val.split(",");
+    });
+
+    const params = new URLSearchParams(data).toString();
+
+    console.log(params);
   }, [searchParams]);
-
-  useEffect(() => {
-    const resultApi = async () => {
-      const queryString = Object.entries(paramss)
-        .map(([key, values]) => `${key}=${values.join(",")}`)
-        .join("&");
-      const [data, err] = await FilterApi(
-        `https://2rltmjilx9.execute-api.ap-south-1.amazonaws.com/DataTransaction/SearchPackages?${queryString} `
-      );
-      console.log(data, err);
-    };
-    resultApi();
-  }, [paramss]);
 
   return (
     <>

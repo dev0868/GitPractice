@@ -6,9 +6,7 @@ const SidebarFilter = () => {
   // Getting All Required Datas
   const { Package_Type, Destination, Activities, Days } =
     useFilterSidebarData();
-
-  const [, setSearchParam] = useSearchParams();
-
+  const [, setPar] = useSearchParams();
   const [selectedFilter, setSelectedFilters] = useState({});
 
   function handleFilterSelection(e, path) {
@@ -48,13 +46,9 @@ const SidebarFilter = () => {
   }
 
   useEffect(() => {
-    // map all filterobject value to setsearch params
-    let updaetedParams = {};
-    for (const key in selectedFilter) {
-      updaetedParams[key] = selectedFilter[key];
-    }
-    setSearchParam(updaetedParams);
-  }, [selectedFilter, selectedFilter.category, setSearchParam]);
+    const poke = new URLSearchParams(selectedFilter).toString();
+    setPar(poke);
+  }, [selectedFilter, setPar]);
 
   return (
     <>

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { fetchAllDestinationData } from "../packageApi";
 import "../package.css";
 import PackagePriceForm from "./PackagePriceForm";
+import PackageCategoryTypeForm from "./PackageCategory&TypeForm";
 const PackageInputForm = ({ Value, Onchange }) => {
   const [destinationList, setDestinationList] = useState(null);
 
@@ -80,6 +81,31 @@ const PackageInputForm = ({ Value, Onchange }) => {
         </div>
       </main>
       <PackagePriceForm Value={Value} Onchange={Onchange} />
+      <main>
+        <legend>Discount</legend>
+        <br />
+        <div className="flex-container input-group">
+          <div>
+            <label>Discount Code</label>
+            <input
+              type="text"
+              value={Value?.DiscountCode}
+              name="DiscountCode"
+              onChange={Onchange}
+            />
+          </div>
+          <div>
+            <label>Discount Price</label>
+            <input
+              type="text"
+              value={Value?.DiscountedAmount}
+              name="DiscountedAmount"
+              onChange={Onchange}
+            />
+          </div>
+        </div>
+      </main>
+      <PackageCategoryTypeForm Value={Value} Onchange={Onchange} />
     </>
   );
 };
